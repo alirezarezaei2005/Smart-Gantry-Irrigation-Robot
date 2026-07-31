@@ -61,3 +61,21 @@ The system utilizes an **Arduino Mega 2560** as the central microcontroller due 
 ├── src/
 │   └── main.ino             # Main firmware for Arduino Mega 2560
 └── README.md
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+# 👨‍💻 Author
+
+Alireza Rezaei Asl
+
+Electrical & Control Engineering Student
+
+📍 Isfahan, Iran
+
+📧 alirezarezaii943@gmail.com
+
+🔗 GitHub
