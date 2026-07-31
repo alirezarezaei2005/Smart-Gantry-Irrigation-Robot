@@ -1,52 +1,63 @@
-# 🤖 Automated Smart Gantry Irrigation Robot
+# Smart Gantry Irrigation & Monitoring System
 
-An IoT-enabled, automated X-Y gantry robotic system designed for high-precision indoor farming, sensitive plant research, and micro-irrigation.
-
-![Project Banner](hardware/3d_render.png)
+An automated 2-axis (X-Y) gantry robot designed for micro-irrigation and individual plant condition monitoring in small-scale indoor crops or research setups.
 
 ---
 
-## 🌟 Key Features
+## Overview
 
-* **Precision Micro-Irrigation:** Dual-axis (X-Y) gantry system delivers water specifically to plants needing hydration.
-* **Multi-Sensor Soil Monitoring:** Reads 25 capacitive moisture sensors via dual 16-channel multiplexers (**CD74HC4067**).
-* **Automated Growth Tracking:** Triggered **ESP32-CAM** module captures real-time images post-watering for plant growth logging.
-* **Environmental Sensing:** Integrated **DHT22** sensor monitors ambient temperature and humidity.
-* **Fully Autonomous:** Operates on an efficient cycle loop driven by an **Arduino Mega 2560**.
+In targeted agricultural setups or controlled indoor experiments, uniform irrigation often leads to over-watering or under-watering. This project implements a Cartesian gantry system over a 5x5 plant matrix (25 pots) to provide:
+1. **Soil-Moisture-Driven Irrigation:** Selective watering based on individual sensor thresholds.
+2. **Growth Logging:** Image capturing via an onboard ESP32-CAM right after watering.
+3. **Environmental Monitoring:** Real-time logging of ambient temperature and relative humidity.
 
 ---
 
-## 📐 System Architecture & Wiring
+## Hardware Architecture
 
-![Wiring Diagram](hardware/schematics.png)
+The system utilizes an **Arduino Mega 2560** as the central microcontroller due to its higher I/O pin count. 
 
-### Bill of Materials (BOM)
+### Key Components & Bill of Materials (BOM)
 
-| Component | Quantity | Description |
+| Component | Quantity | Purpose |
 | :--- | :---: | :--- |
-| **Arduino Mega 2560** | 1 | Main System Controller |
-| **CD74HC4067 Multiplexer** | 2 | 16-Channel Analog MUX for moisture sensors |
-| **Capacitive Soil Moisture Sensor** | 25 | Corrosion-resistant soil sensors |
-| **NEMA 17 Stepper Motors** | 2 | X-Y Axis Motion Drive |
-| **A4988 Stepper Drivers** | 2 | Motor Controllers |
-| **12V DC Water Pump** | 1 | Micro-Spraying Water Pump |
-| **ESP32-CAM** | 1 | Image Capture & Wireless Logging Module |
-| **DHT22 Sensor** | 1 | Ambient Temp & Humidity Monitoring |
+| **Arduino Mega 2560** | 1 | Main system logic and sensor reading |
+| **CD74HC4067 Multiplexer** | 2 | 16-Channel Analog MUX to read 25 sensors |
+| **Capacitive Soil Moisture Sensors** | 25 | Analog soil moisture measurement |
+| **NEMA 17 Stepper Motors** | 2 | X and Y axis linear movement |
+| **A4988 Drivers** | 2 | Stepper motor drivers |
+| **12V DC Pump & Solenoid Nozzle** | 1 | Water dispensing unit |
+| **ESP32-CAM** | 1 | Image capture trigger upon watering |
+| **DHT22** | 1 | Ambient temperature and humidity monitoring |
+| **5V / 12V Power Supply Units** | 2 | Separate logic and inductive load power supply |
 
 ---
 
-## 🚀 How It Works
+## System Logic & Workflow
 
-1. **Soil Moisture Scanning:** The system reads all 25 sensor values across the 5x5 grid.
-2. **Pathfinding & Navigation:** If soil moisture drops below **35%**, the gantry head moves to the target $(X, Y)$ coordinate.
-3. **Controlled Watering:** Activates the water spray nozzle for **12 seconds**.
-4. **Visual Logging:** The ESP32-CAM captures a snapshot of the plant for growth analysis.
-5. **Home & Sleep:** Returns to origin position $(0,0)$ and sleeps for 1 hour before the next cycle.
+1. **Sensor Multiplexing:**
+   The Arduino cycles through channels on the dual CD74HC4067 multiplexers to query all 25 capacitive moisture sensors sequentially.
+
+2. **Threshold Check & Navigation:**
+   If a pot's reading drops below the pre-set calibrated threshold:
+   * Target coordinates $(X, Y)$ are calculated based on the pot index ($1 \le \text{Pot} \le 25$).
+   * Stepper drivers move the gantry head directly over the target pot.
+
+3. **Irrigation & Imaging:**
+   * The 12V water pump activates for a calibrated duration (10–15 seconds).
+   * A digital signal is pulsed to the ESP32-CAM to record an updated snapshot of the plant.
+
+4. **Home Positioning:**
+   After completing a full scanning pass, the gantry head returns to the home position $(0, 0)$ and pauses until the next scheduled routine.
 
 ---
 
-## 💻 Software & Installation
+## Repository Structure
 
-1. Clone this repository:
-   ```bash
-   git clone [https://github.com/YOUR_USERNAME/Smart-Gantry-Irrigation-Robot.git](https://github.com/YOUR_USERNAME/Smart-Gantry-Irrigation-Robot.git)
+```text
+├── hardware/
+│   ├── schematics.png       # Circuit diagrams and MUX pinouts
+│   └── 3d_model.png         # Structural render of the X-Y frame
+├── src/
+│   └── main.ino             # Main firmware for Arduino Mega 2560
+└── README.md
