@@ -1,3 +1,6 @@
+این متن کامل، یکدست و آمادهٔ کپی برای فایل `README.md` شماست:
+
+```markdown
 # Smart Gantry Irrigation & Monitoring System
 
 An automated 2-axis (X-Y) gantry robot designed for micro-irrigation and individual plant condition monitoring in small-scale indoor crops or research setups.
@@ -62,20 +65,45 @@ The system utilizes an **Arduino Mega 2560** as the central microcontroller due 
 │   └── main.ino             # Main firmware for Arduino Mega 2560
 └── README.md
 
-# 📄 License
-
-This project is licensed under the MIT License.
+```
 
 ---
 
-# 👨‍💻 Author
+## Setup & Flashing
 
-Alireza Rezaei Asl
+1. Clone the repository:
+```bash
+git clone [https://github.com/alirezarezaei2005/Smart-Gantry-Irrigation-Robot.git](https://github.com/alirezarezaei2005/Smart-Gantry-Irrigation-Robot.git)
 
-Electrical & Control Engineering Student
+```
+
+
+2. Open `src/main.ino` in Arduino IDE.
+3. Install required dependencies:
+* `DHT sensor library`
+* `Adafruit Unified Sensor`
+
+
+4. Select board **Arduino Mega 2560** and flash the firmware.
+
+---
+
+## 👨‍💻 Author
+
+**Alireza Rezaei Asl** Electrical & Control Engineering Student
 
 📍 Isfahan, Iran
 
 📧 alirezarezaii943@gmail.com
 
-🔗 GitHub
+🔗 GitHub: [@alirezarezaei2005](https://github.com/alirezarezaei2005)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+
+```
+
+```
